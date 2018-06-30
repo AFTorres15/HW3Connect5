@@ -7,6 +7,10 @@ package cs3331;
  */
 public class Board
 {
+    Square[][] tiles;
+    boolean[][] isFilled;
+    private int counter=0;
+
     /** Defines the size of the board */
     public final int size;
     /**
@@ -49,5 +53,15 @@ public class Board
     public int size()
     {
         return size;
+    }
+
+    /**
+     * This method is used to check for a tie
+     * @return true if tie, false otherwise
+     */
+    private boolean isBoardFull(){
+        if(counter>=Math.pow(size,2))
+            return true;
+        return false;
     }
 }
