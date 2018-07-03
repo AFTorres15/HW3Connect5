@@ -31,12 +31,12 @@ public class Board
      * @param x x coordinate of where the disc needs to be placed.
      * @param y y coordinate of where the disc needs to be placed.
      */
-    public void addDisc(int x, int y,Player player)throws IndexOutOfBoundsException {
+    public void addDisc(int x, int y,Player player)throws InValidDiskPositionException {
         if(isValidPosition(x,y)) {
             tiles[y][x] = new Square(x, y, player);
             // Your Code Goes Here!
         }else{
-            throw IndexOutOfBoundsException;
+            throw new InValidDiskPositionException();
         }
     }
     /**
