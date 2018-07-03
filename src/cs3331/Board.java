@@ -1,184 +1,181 @@
-package cs3331;
+    package cs3331;
 
-import java.security.InvalidParameterException;
+    import java.security.InvalidParameterException;
 
-/**
- * Contains the model for the Connect Five board. (No GUI elements should placed here.)
- *
- * @author Edgar Padilla
- *
- */
-public class Board
-{
-    Square[][] tiles;
-    boolean[][] isFilled;
-    private int counter=0;
-
-    /** Defines the size of the board */
-    public final int size;
     /**
-     * Constructor including size of board
-     * @param size Board Size
-     */
-    public Board(int size)
-    {
-        this.size = size;
-        // Your Code Goes Here!
-    }
-    /**
-     * Adds a disc to the game board.
+     * Contains the model for the Connect Five board. (No GUI elements should placed here.)
      *
-     * @param x x coordinate of where the disc needs to be placed.
-     * @param y y coordinate of where the disc needs to be placed.
+     * @author Edgar Padilla
+     *
      */
-    public void addDisc(int x, int y,Player player)throws InValidDiskPositionException {
-        if(isValidPosition(x,y)) {
-            tiles[y][x] = new Square(x, y, player);
+    public class Board{
+        private Square[][] tiles;
+        private boolean[][] isFilled;
+        private int counter=0;
+
+        /** Defines the size of the board */
+        public final int size;
+        /**
+         * Constructor including size of board
+         * @param size Board Size
+         */
+        public Board(int size)
+        {
+            this.size = size;
             // Your Code Goes Here!
-        }else{
-            throw new InValidDiskPositionException();
         }
-    }
-    /**
-     * Checks if input positions is valid. Checks if valid x-y range. Also checks if position is empty.
-     *
-     * @param x x input.
-     * @param y y input.
-     *
-     * @return Validity of placement of the disc.
-     */
-    private boolean isValidPosition(int x, int y)
-    {
-        // Your Code Goes Here!
-        if(!isFilled[y][x])
-        return true;//change it to something that makes sense
-        return false;
-    }
+        /**
+         * Adds a disc to the game board.
+         *
+         * @param x x coordinate of where the disc needs to be placed.
+         * @param y y coordinate of where the disc needs to be placed.
+         */
+        public void addDisc(int x, int y,Player player)throws InValidDiskPositionException,PlayerWonException {
+            if(isValidPosition(x,y)) {
+                tiles[y][x] = new Square(x, y, player);
+                isFilled[y][x]=true;
+                if(checkForWin(tiles[y][x],player)) {
+                    throw new PlayerWonException();
+                }
 
-    /**
-     * Returns the size of this board.
-     * @return Returns size of board
-     */
-    public int size()
-    {
-        return size;
-    }
-
-    /**
-     * This method is used to check for a tie
-     * @return true if tie, false otherwise
-     */
-    private boolean isBoardFull(){
-        if(counter>=Math.pow(size,2))
-            return true;
-        return false;
-    }
-
-    private boolean checkForWin(Square square,Player player){
-        if(((upCheck(square.getX(),square.getY(),player.symbol)+downCheck(square.getX(),square.getY(),player.symbol)))>=6) {
-            // System.out.println("Current Points:" + currpoints);
-            return true;
-        }
-        if(leftCheck(square.getX(),square.getY(),player.symbol)+rightCheck(square.getX(),square.getY(),player.symbol)>=6)
-            return true;
-        if(leftUpCheck(square.getX(),square.getY(),player.symbol)+rightDownCheck(square.getX(),square.getY(),player.symbol)>=6)
-            return true;
-        if(leftDownCHeck(square.getX(),square.getY(),player.symbol)+rightUpCheck(square.getX(),square.getY(),player.symbol)>=6)
-            return true;
-        return false;
-    }
-
-    private int upCheck(int x, int y,char player){
-        try {
-            if (tiles[y][x].getPlayer().getSymbol() == player) {
-                return 1 + upCheck(x , y-1, player);
+            }else{
+                throw new InValidDiskPositionException();
             }
-        }catch (NullPointerException e){
-            return 0;
-        }catch (ArrayIndexOutOfBoundsException e){
-            return 0;
         }
-        return 0;
-    }
-    private int downCheck(int x, int y, char player){
-        try {
-            if(tiles[y][x].getPlayer().getSymbol()== player)
-                return 1+downCheck(x,y+1,player);
+        /**
+         * Checks if input positions is valid. Checks if valid x-y range. Also checks if position is empty.
+         *
+         * @param x x input.
+         * @param y y input.
+         *
+         * @return Validity of placement of the disc.
+         */
+        private boolean isValidPosition(int x, int y)
+        {
+            // Your Code Goes Here!
+            return !isFilled[y][x];
+        }
 
-        }catch (NullPointerException e){
-            return 0;
-        }catch (ArrayIndexOutOfBoundsException e){
-            return 0;
+        /**
+         * Returns the size of this board.
+         * @return Returns size of board
+         */
+        public int size()
+        {
+            return size;
         }
-        return 0;
-    }
-    private int leftCheck(int x, int y, char player){
-        try {
-            if (tiles[y][x].getPlayer().getSymbol() == player)
-                return 1 + leftCheck(x-1, y, player);
-        }catch (NullPointerException e){
-            return 0;
-        }catch (ArrayIndexOutOfBoundsException e){
-            return 0;
+
+        /**
+         * This method is used to check for a tie
+         * @return true if tie, false otherwise
+         */
+        private boolean isBoardFull(){
+            return counter >= Math.pow(size, 2);
         }
-        return 0;
-    }
-    private int rightCheck(int x, int y, char player){
-        try {
-            if (tiles[y][x].getPlayer().getSymbol() == player) {
-                return 1 + rightCheck(x+1, y, player);
+
+        public boolean checkForWin(Square square,Player player){
+            if(((upCheck(square.getX(),square.getY(),player.getSymbol())+downCheck(square.getX(),square.getY(),player.getSymbol())))>=6) {
+                // System.out.println("Current Points:" + currpoints);
+                return true;
             }
-        }catch (NullPointerException e){
-            return 0;
-        }catch (ArrayIndexOutOfBoundsException e){
-            return 0;
+            if(leftCheck(square.getX(),square.getY(),player.getSymbol())+rightCheck(square.getX(),square.getY(),player.getSymbol())>=6)
+                return true;
+            if(leftUpCheck(square.getX(),square.getY(),player.getSymbol())+rightDownCheck(square.getX(),square.getY(),player.getSymbol())>=6)
+                return true;
+            return leftDownCHeck(square.getX(), square.getY(), player.getSymbol()) + rightUpCheck(square.getX(), square.getY(), player.getSymbol()) >= 6;
         }
-        return 0;
-    }
-    private int leftUpCheck(int x, int y, char player){
-        try{
-            if(tiles[y][x].getPlayer().getSymbol()==player){
-                return 1+leftUpCheck(x-1,y-1,player);
+
+        private int upCheck(int x, int y,char player){
+            try {
+                if (tiles[y][x].getPlayer().getSymbol() == player) {
+                    return 1 + upCheck(x , y-1, player);
+                }
+            }catch (NullPointerException e){
+                return 0;
+            }catch (ArrayIndexOutOfBoundsException e){
+                return 0;
             }
-        }catch (NullPointerException e){
-            return 0;
-        }catch (ArrayIndexOutOfBoundsException e){
             return 0;
         }
-        return 0;
-    }
-    private int rightDownCheck(int x, int y, char player){
-        try{
-            if(tiles[y][x].getPlayer().getSymbol()==player)
-                return 1+rightDownCheck(x+1,y+1,player);
-        }catch (NullPointerException e){
-            return 0;
-        }catch (ArrayIndexOutOfBoundsException e){
-            return 0;
-        }
-        return 0;
-    }
-    private int leftDownCHeck(int x,int y, char player){
-        try {
-            if(tiles[y][x].getPlayer().getSymbol()==player){
-                return 1+leftDownCHeck(x-1,y+1,player);
+        private int downCheck(int x, int y, char player){
+            try {
+                if(tiles[y][x].getPlayer().getSymbol()== player)
+                    return 1+downCheck(x,y+1,player);
+
+            }catch (NullPointerException e){
+                return 0;
+            }catch (ArrayIndexOutOfBoundsException e){
+                return 0;
             }
-        }catch (NullPointerException e){
-            return 0;
-        }catch (ArrayIndexOutOfBoundsException e){
             return 0;
         }
-        return 0;
-    }
-    private int rightUpCheck(int x, int y, char player){
-        try {
-            if(tiles[y][x].getPlayer().getSymbol()== player)
-                return 1+rightUpCheck(x+1,y-1,player);
-        }catch (NullPointerException e){
-            return 0;
-        }catch (ArrayIndexOutOfBoundsException e){
+        private int leftCheck(int x, int y, char player){
+            try {
+                if (tiles[y][x].getPlayer().getSymbol() == player)
+                    return 1 + leftCheck(x-1, y, player);
+            }catch (NullPointerException e){
+                return 0;
+            }catch (ArrayIndexOutOfBoundsException e){
+                return 0;
+            }
             return 0;
         }
-        return 0;
+        private int rightCheck(int x, int y, char player){
+            try {
+                if (tiles[y][x].getPlayer().getSymbol() == player) {
+                    return 1 + rightCheck(x+1, y, player);
+                }
+            }catch (NullPointerException e){
+                return 0;
+            }catch (ArrayIndexOutOfBoundsException e){
+                return 0;
+            }
+            return 0;
+        }
+        private int leftUpCheck(int x, int y, char player){
+            try{
+                if(tiles[y][x].getPlayer().getSymbol()==player){
+                    return 1+leftUpCheck(x-1,y-1,player);
+                }
+            }catch (NullPointerException e){
+                return 0;
+            }catch (ArrayIndexOutOfBoundsException e){
+                return 0;
+            }
+            return 0;
+        }
+        private int rightDownCheck(int x, int y, char player){
+            try{
+                if(tiles[y][x].getPlayer().getSymbol()==player)
+                    return 1+rightDownCheck(x+1,y+1,player);
+            }catch (NullPointerException e){
+                return 0;
+            }catch (ArrayIndexOutOfBoundsException e){
+                return 0;
+            }
+            return 0;
+        }
+        private int leftDownCHeck(int x,int y, char player){
+            try {
+                if(tiles[y][x].getPlayer().getSymbol()==player){
+                    return 1+leftDownCHeck(x-1,y+1,player);
+                }
+            }catch (NullPointerException e){
+                return 0;
+            }catch (ArrayIndexOutOfBoundsException e){
+                return 0;
+            }
+            return 0;
+        }
+        private int rightUpCheck(int x, int y, char player){
+            try {
+                if(tiles[y][x].getPlayer().getSymbol()== player)
+                    return 1+rightUpCheck(x+1,y-1,player);
+            }catch (NullPointerException e){
+                return 0;
+            }catch (ArrayIndexOutOfBoundsException e){
+                return 0;
+            }
+            return 0;
+        }
     }
-}
