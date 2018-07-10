@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 public class ConnectFive extends JFrame
 {
 
+    //IM DUMB
     /**
      * Board model
      */
