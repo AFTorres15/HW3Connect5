@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 public class ConnectFive extends JFrame
 {
 
-    //IM DUMB
+    // TEST TEST TEST TEST GITHUB LISTEN TO ME
     /**
      * Board model
      */
