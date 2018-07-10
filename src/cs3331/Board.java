@@ -8,7 +8,7 @@
      * @author Andrea Torres
      *
      */
-    public class Board{
+    class Board{
         private Square[][] tiles;
         private boolean[][] isFilled;
         private int counter=0;
@@ -19,14 +19,11 @@
          * Constructor including size of board
          * @param size Board Size
          */
-        public Board(int size)throws InvalidBoardSize{
-            if(size== 9||size ==15) {
+        Board(int size){
                 this.size = size;
                 tiles = new Square[size][size];
                 isFilled = new boolean[size][size];
-            }else{
-                throw new InvalidBoardSize();
-            }
+
         }
         /**
          * Adds a disc to the game board.
@@ -34,7 +31,9 @@
          * @param x x coordinate of where the disc needs to be placed.
          * @param y y coordinate of where the disc needs to be placed.
          */
-        public void addDisc(int x, int y,Player player)throws InValidDiskPositionException,PlayerWonException {
+        void addDisc(int x, int y, Player player)throws InValidDiskPositionException,PlayerWonException, BoardFullException{
+            if(isBoardFull())
+                throw new BoardFullException();//throw an exception
             if(isValidPosition(x,y)) {
                 tiles[y][x] = new Square(x, y, player);
                 isFilled[y][x]=true;
@@ -63,11 +62,11 @@
          * Returns the size of this board.
          * @return Returns size of board
          */
-        public int size()
+        int size()
         {
             return size;
         }
-        public Player getPlayer(int x, int y){
+        Player getPlayer(int x, int y){
              return tiles[y][x].getPlayer();
         }
 
@@ -79,7 +78,7 @@
             return counter >= Math.pow(size, 2);
         }
 
-        public boolean checkForWin(Square square,Player player){
+        private boolean checkForWin(Square square, Player player){
             if(((upCheck(square.getX(),square.getY(),player.getSymbol())+downCheck(square.getX(),square.getY(),player.getSymbol())))>=6) {
                 // System.out.println("Current Points:" + currpoints);
                 return true;
@@ -96,9 +95,7 @@
                 if (tiles[y][x].getPlayer().getSymbol() == player) {
                     return 1 + upCheck(x , y-1, player);
                 }
-            }catch (NullPointerException e){
-                return 0;
-            }catch (ArrayIndexOutOfBoundsException e){
+            }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
                 return 0;
             }
             return 0;
@@ -108,9 +105,7 @@
                 if(tiles[y][x].getPlayer().getSymbol()== player)
                     return 1+downCheck(x,y+1,player);
 
-            }catch (NullPointerException e){
-                return 0;
-            }catch (ArrayIndexOutOfBoundsException e){
+            }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
                 return 0;
             }
             return 0;
@@ -119,9 +114,7 @@
             try {
                 if (tiles[y][x].getPlayer().getSymbol() == player)
                     return 1 + leftCheck(x-1, y, player);
-            }catch (NullPointerException e){
-                return 0;
-            }catch (ArrayIndexOutOfBoundsException e){
+            }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
                 return 0;
             }
             return 0;
@@ -131,9 +124,7 @@
                 if (tiles[y][x].getPlayer().getSymbol() == player) {
                     return 1 + rightCheck(x+1, y, player);
                 }
-            }catch (NullPointerException e){
-                return 0;
-            }catch (ArrayIndexOutOfBoundsException e){
+            }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
                 return 0;
             }
             return 0;
@@ -143,9 +134,7 @@
                 if(tiles[y][x].getPlayer().getSymbol()==player){
                     return 1+leftUpCheck(x-1,y-1,player);
                 }
-            }catch (NullPointerException e){
-                return 0;
-            }catch (ArrayIndexOutOfBoundsException e){
+            }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
                 return 0;
             }
             return 0;
@@ -154,9 +143,7 @@
             try{
                 if(tiles[y][x].getPlayer().getSymbol()==player)
                     return 1+rightDownCheck(x+1,y+1,player);
-            }catch (NullPointerException e){
-                return 0;
-            }catch (ArrayIndexOutOfBoundsException e){
+            }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
                 return 0;
             }
             return 0;
@@ -166,9 +153,7 @@
                 if(tiles[y][x].getPlayer().getSymbol()==player){
                     return 1+leftDownCHeck(x-1,y+1,player);
                 }
-            }catch (NullPointerException e){
-                return 0;
-            }catch (ArrayIndexOutOfBoundsException e){
+            }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
                 return 0;
             }
             return 0;
@@ -177,9 +162,7 @@
             try {
                 if(tiles[y][x].getPlayer().getSymbol()== player)
                     return 1+rightUpCheck(x+1,y-1,player);
-            }catch (NullPointerException e){
-                return 0;
-            }catch (ArrayIndexOutOfBoundsException e){
+            }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
                 return 0;
             }
             return 0;

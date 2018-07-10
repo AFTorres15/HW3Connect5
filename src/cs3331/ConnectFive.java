@@ -41,7 +41,7 @@ public class ConnectFive extends JFrame {
      * Constructor that initializes and adds all the components of the frame
      * including anonymous classes for the handlers.
      */
-    public ConnectFive() {
+    private ConnectFive() {
         setTitle("Connect Five");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,15 +54,15 @@ public class ConnectFive extends JFrame {
         JButton smallBoard = new JButton("Board Size (9x9)");
         for (JButton button : new JButton[]{largeBoard, smallBoard}) {
             button.setFocusPainted(false);
-            button.addActionListener(e -> {
-                message.setText((e.getSource() == largeBoard ? "15" : "9"));
-            });
+            button.addActionListener(e -> message.setText((e.getSource() == largeBoard ? "15" : "9")));
             boardSizePanel.add(button);
         }
         getContentPane().add(boardSizePanel, BorderLayout.NORTH);
 
         // create Board model instance
-        board = new Board(15);
+
+            board = new Board(15);
+
         //create Board GUI instance (center)
         boardPanel = new BoardPanel(board); //initializing the panel for the model
         boardPanel.setPreferredSize(new Dimension(660, 660));
