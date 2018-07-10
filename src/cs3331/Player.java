@@ -7,9 +7,9 @@ public class Player {
     public Player(int currPlayer,char symbol){
         this.playerName=currPlayer;
         this.symbol=symbol;
-        isReal=false;
+        isReal=true;
     }
-    public char getSymbol(){
+    char getSymbol(){
         return symbol;
     }
     public int getPlayerName(){

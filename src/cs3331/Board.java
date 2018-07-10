@@ -1,6 +1,6 @@
     package cs3331;
 
-    import java.security.InvalidParameterException;
+    //import java.security.InvalidParameterException;
 
     /**
      * Contains the model for the Connect Five board. (No GUI elements should placed here.)
@@ -14,15 +14,19 @@
         private int counter=0;
 
         /** Defines the size of the board */
-        public final int size;
+        private final int size;
         /**
          * Constructor including size of board
          * @param size Board Size
          */
-        public Board(int size)
-        {
-            this.size = size;
-            // Your Code Goes Here!
+        public Board(int size)throws InvalidBoardSize{
+            if(size== 9||size ==15) {
+                this.size = size;
+                tiles = new Square[size][size];
+                isFilled = new boolean[size][size];
+            }else{
+                throw new InvalidBoardSize();
+            }
         }
         /**
          * Adds a disc to the game board.
@@ -50,8 +54,7 @@
          *
          * @return Validity of placement of the disc.
          */
-        private boolean isValidPosition(int x, int y)
-        {
+        private boolean isValidPosition(int x, int y){
             // Your Code Goes Here!
             return !isFilled[y][x];
         }
@@ -63,6 +66,9 @@
         public int size()
         {
             return size;
+        }
+        public Player getPlayer(int x, int y){
+             return tiles[y][x].getPlayer();
         }
 
         /**
