@@ -1,5 +1,8 @@
 package cs3331;
 
+/**
+ * @author Andrea Fernanda Torres
+ */
 public class Player {
     private int playerName;
     private char symbol;

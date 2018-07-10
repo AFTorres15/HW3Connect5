@@ -1,8 +1,13 @@
 package cs3331;
 
 import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
+
+/**
+ * @author Andrea Torres
+ */
 
 public class BoardTest {
 
@@ -16,15 +21,15 @@ public class BoardTest {
         p2= new Player(2,'2');
     }
 
-    @org.junit.Test
+    @Test
     public void addDisc() throws Exception {
         tmpBoard.addDisc(0,0,p1);
         assertEquals(p1,tmpBoard.getPlayer(0,0));
         assertNotEquals(p2,tmpBoard.getPlayer(0,0));
     }
 
-    @org.junit.Test
-    public void size() {
+    @Test
+    public void size() throws InvalidBoardSize{
         assertEquals(9,tmpBoard.size());
         assertNotEquals(15,tmpBoard.size());
         tmpBoard=new Board(15);
@@ -32,7 +37,7 @@ public class BoardTest {
         assertNotEquals(9,tmpBoard.size());
     }
 
-    @org.junit.Test
+    @Test
     public void checkForWin() {
     }
 }

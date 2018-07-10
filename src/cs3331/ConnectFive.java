@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  * Frame class for the graphical user interface of connect five.
  * Controller for handling events that affect the model and the view.
  *
- * @author Edgar Padilla
+ * @author Edgar Padilla and Freinds
  */
 @SuppressWarnings("serial")
 public class ConnectFive extends JFrame {

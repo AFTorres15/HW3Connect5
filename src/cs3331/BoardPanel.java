@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 /**
  * Class that acts as the Panel to display the model (board) as a grid of 15 by 15.
  *
- * @author Edgar Padilla
+ * @author Edgar Padilla and Freinds
  */
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel {

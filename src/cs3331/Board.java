@@ -5,7 +5,7 @@
     /**
      * Contains the model for the Connect Five board. (No GUI elements should placed here.)
      *
-     * @author Edgar Padilla
+     * @author Andrea Torres
      *
      */
     public class Board{
