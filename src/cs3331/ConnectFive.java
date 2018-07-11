@@ -33,7 +33,7 @@ public class ConnectFive extends JFrame {
      * frame.
      */
     private BoardPanel boardPanel;
-    private int squareSize = 70;
+    private int squareSize = 15;
 
     /**
      * Constructor that initializes and adds all the components of the frame
@@ -54,7 +54,7 @@ public class ConnectFive extends JFrame {
     public ConnectFive(int size) {
         super();
         createGUI(size);
-
+        squareSize = size;
         setVisible(true);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,33 +96,43 @@ public class ConnectFive extends JFrame {
         //anonymous class declaration (MouseAdapter is not a functional interface, we cannot use lambda expression)(need to do it the old way)
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                message.setText("X: " + e.getX()  + " Y: " + e.getY());
-                int xy = locateSquare(e.getX(), e.getY());
-                if (xy >= 0) {
-                    message.setText("X: " + xy/100  + " Y: " + xy%100);
+                try {
+                    int x = locatexy(e.getX());
+                    int y = locatexy(e.getY());
+                    message.setText("X: " + x + " " + "Y: " + y);
+                    if (x > 0) {
+                        board.addDisc(x / 100, x % 100, new Player(1, 'o'));
+                    }
+                } catch (PlayerWonException e1) {
+
+                } catch (InValidDiskPositionException e1) {
+                    e1.printStackTrace();
+                } catch (Exception e1) {
+                    System.out.println("Some other BS");
                 }
 
             }//end mouse pressed
         });
     }
 
-    private int locateSquare(int x, int y) {
-        if (x < 0 || x > board.size() * squareSize
-                || y < 0 || y > board.size() * squareSize) {
-            return -1;
+    private int locatexy(int x) {
+        int pxlsize = 675;
+        int gridSize = squareSize;
+        int distance = pxlsize / gridSize;
+        if (x > 25){
+            x = x - 25; // since we start at 25 we remove 25 in the calculations
         }
-        int xx = x / squareSize;
-        int yy = y / squareSize;
-        return xx * 170 + yy;
+        int result = (int) Math.round(x / distance);
+        return result + 1;
     }
 
     private BoardPanel boardPan(int size) {
-        //board = new Board(15);
         board = new Board(size);
         boardPanel = new BoardPanel(board);
-        boardPanel.setPreferredSize(new Dimension(725,725));
+        boardPanel.setPreferredSize(new Dimension(725, 725));
         return boardPanel;
     }
+
     private JPanel statusPanel() {
         JPanel statusPanel = new JPanel();
         statusPanel.setBackground(Color.DARK_GRAY);
