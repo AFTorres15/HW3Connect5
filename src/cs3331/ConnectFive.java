@@ -34,6 +34,8 @@ public class ConnectFive extends JFrame {
      */
     private BoardPanel boardPanel;
     private int squareSize = 15;
+    private Player player1 = new Player(1, '1');
+    private Player player2 = new Player(2, '2');
 
     /**
      * Constructor that initializes and adds all the components of the frame
@@ -101,14 +103,15 @@ public class ConnectFive extends JFrame {
                     int y = locatexy(e.getY());
                     message.setText("X: " + x + " " + "Y: " + y);
                     if (x > 0) {
-                        board.addDisc(x / 100, x % 100, new Player(1, 'o'));
+                        board.addDisc(x-1, y-1, player1);
+                        System.out.println("success");
                     }
                 } catch (PlayerWonException e1) {
 
                 } catch (InValidDiskPositionException e1) {
                     e1.printStackTrace();
                 } catch (Exception e1) {
-                    System.out.println("Some other BS");
+                    e1.printStackTrace();
                 }
 
             }//end mouse pressed
