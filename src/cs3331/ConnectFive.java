@@ -109,18 +109,7 @@ public class ConnectFive extends JFrame {
     }
 
     private void passCoordinates(int x, int y) {
-        try {
-
-            board.addDisc(x-1, y-1, player1);
-
-        } catch (InValidDiskPositionException ex1) {
-            System.out.println("1");
-
-        } catch (PlayerWonException ex1) {
-            System.out.println("2");
-        } catch (Exception e1) {
-            System.out.println("3");
-        }
+        
 
     }
 
