@@ -1,5 +1,8 @@
 package cs3331;
 
+/**
+ * @author Andrea Torres
+ */
 public class Square {
     private int x, y;
     private Player currPlayer;
