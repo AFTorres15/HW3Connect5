@@ -40,6 +40,7 @@ public class Board {
 
             tiles[y][x] = new Square(x, y, player);
             isFilled[y][x] = true;
+            counter++;
             if (checkForWin(tiles[y][x], player)) {
                 throw new PlayerWonException();
             }
@@ -82,7 +83,7 @@ public class Board {
      *
      * @return true if tie, false otherwise
      */
-    private boolean isBoardFull() {
+    public boolean isBoardFull() {
         return counter >= Math.pow(size, 2);
     }
 
