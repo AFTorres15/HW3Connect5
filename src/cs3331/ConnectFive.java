@@ -8,10 +8,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 
 /**
@@ -36,6 +33,7 @@ public class ConnectFive extends JFrame {
      * frame.
      */
     private BoardPanel boardPanel;
+    private int squareSize = 25;
 
     /**
      * Constructor that initializes and adds all the components of the frame
@@ -47,7 +45,22 @@ public class ConnectFive extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
 
+        createGUI(15);
 
+        setVisible(true);
+        pack();
+    }
+
+    public ConnectFive(int size) {
+        super();
+        createGUI(size);
+
+        setVisible(true);
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void createGUI(int size) {
         //adding buttons (top)
         JPanel boardSizePanel = new JPanel(new FlowLayout());
         JButton largeBoard = new JButton("Board Size (15x15)");
@@ -56,17 +69,23 @@ public class ConnectFive extends JFrame {
             button.setFocusPainted(false);
             button.addActionListener(e -> {
                 message.setText((e.getSource() == largeBoard ? "15" : "9"));
+                if (e.getSource() == largeBoard) {
+                    JOptionPane.showConfirmDialog(this, "Start NEW GAME?");
+                    this.dispose();
+                    new ConnectFive(15);
+                } else {
+                    JOptionPane.showConfirmDialog(this, "Start NEW GAME?");
+                    this.dispose();
+                    new ConnectFive(9);
+
+                }
             });
             boardSizePanel.add(button);
         }
         getContentPane().add(boardSizePanel, BorderLayout.NORTH);
 
-        // create Board model instance
-        board = new Board(15);
         //create Board GUI instance (center)
-        boardPanel = new BoardPanel(board); //initializing the panel for the model
-        boardPanel.setPreferredSize(new Dimension(660, 660));
-        getContentPane().add(boardPanel, BorderLayout.CENTER);
+        getContentPane().add(boardPan(size), BorderLayout.CENTER);
 
 
         //creating message label (bottom)
@@ -77,15 +96,42 @@ public class ConnectFive extends JFrame {
         //anonymous class declaration (MouseAdapter is not a functional interface, we cannot use lambda expression)(need to do it the old way)
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                message.setText("X: " + e.getX() + " Y: " + e.getY());
+//                try {
+//                    int xy = locateSquare(e.getX(), e.getY());
+//                    message.setText("X: " + xy/100 + " Y: " + xy%100);
+//                    if (xy > 0) {
+//                        board.addDisc(xy/100, xy%100, new Player(1,'o'));
+//                    }
+//                } catch (InValidDiskPositionException e1) {
+//                    e1.printStackTrace();
+//                } catch (PlayerWonException e1) {
+//                    e1.printStackTrace();
+//                }
             }//end mouse pressed
         });
-    }//end constructor
+    }
 
+//    private int locateSquare(int x, int y) {
+//        if (x < 0 || x > board.size * squareSize
+//                || y < 0 || y > board.size * squareSize) {
+//            return -1;
+//        }
+//        int xx = x / squareSize;
+//        int yy = y / squareSize;
+//        return xx * 100 + yy;
+//    }
+
+    private BoardPanel boardPan(int size) {
+        //board = new Board(15);
+        board = new Board(size);
+        boardPanel = new BoardPanel(board);
+        boardPanel.setPreferredSize(new Dimension(725,725));
+        return boardPanel;
+    }
     private JPanel statusPanel() {
         JPanel statusPanel = new JPanel();
         statusPanel.setBackground(Color.DARK_GRAY);
-        statusPanel.setPreferredSize(new Dimension(660, 50));
+        statusPanel.setPreferredSize(new Dimension(650, 50));
         message = new JLabel("Welcome to Connect Five");
         message.setForeground(Color.WHITE);
         message.setFont(new Font(message.getName(), Font.BOLD, 26));
@@ -98,8 +144,6 @@ public class ConnectFive extends JFrame {
      * Initializes the frame for the GUI and starts the application.
      */
     public static void main(String[] args) {
-        ConnectFive cf = new ConnectFive();
-        cf.setVisible(true);
-        cf.pack();
+        new ConnectFive();
     }
 }
