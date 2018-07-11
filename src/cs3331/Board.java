@@ -15,7 +15,7 @@ public class Board {
     /**
      * Defines the size of the board
      */
-    public final int size;
+    private final int size;
 
     /**
      * Constructor including size of board
@@ -86,28 +86,28 @@ public class Board {
         return counter >= Math.pow(size, 2);
     }
 
-    public boolean checkForWin(Square square, Player player) {
-        if (((checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,-1) + downCheck(square.getX(), square.getY(), player.getSymbol()))) >= 6) {
+    private boolean checkForWin(Square square, Player player) {
+        if (((checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,-1) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,1))) >= 6) {
             // System.out.println("Current Points:" + currpoints);
             return true;
         }
-        if (leftCheck(square.getX(), square.getY(), player.getSymbol()) + rightCheck(square.getX(), square.getY(), player.getSymbol()) >= 6)
+        if (checkWinHelper(square.getX(), square.getY(), player.getSymbol(),-1,0) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),1,0) >= 6)
             return true;
-        if (leftUpCheck(square.getX(), square.getY(), player.getSymbol()) + rightDownCheck(square.getX(), square.getY(), player.getSymbol()) >= 6)
+        if (checkWinHelper(square.getX(), square.getY(), player.getSymbol(),-1,-1) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),1,1) >= 6)
             return true;
-        return leftDownCHeck(square.getX(), square.getY(), player.getSymbol()) + rightUpCheck(square.getX(), square.getY(), player.getSymbol()) >= 6;
+        return checkWinHelper(square.getX(), square.getY(), player.getSymbol(),-1,1) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),1,-1) >= 6;
     }
     private int checkWinHelper(int x, int y,char player,int dx,int dy){
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player) {
-                return 1 + upCheck(x+dx, y+dy, player);
+                return 1 + checkWinHelper(x+dx, y+dy, player,dx,dy);
             }
         } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             return 0;
         }
         return 0;
     }
-    //dx:0 dy:-1
+/*    //dx:0 dy:-1 upCheck
     private int upCheck(int x, int y, char player) {
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player) {
@@ -118,7 +118,7 @@ public class Board {
         }
         return 0;
     }
-    //dx:0 dy:1
+    //dx:0 dy:1 downCheck
     private int downCheck(int x, int y, char player) {
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player)
@@ -129,7 +129,7 @@ public class Board {
         }
         return 0;
     }
-    //dx:-1 dy:0
+    //dx:-1 dy:0 leftCheck
     private int leftCheck(int x, int y, char player) {
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player)
@@ -139,7 +139,7 @@ public class Board {
         }
         return 0;
     }
-    //dx:1 dy:0
+    //dx:1 dy:0 rightCheck
     private int rightCheck(int x, int y, char player) {
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player) {
@@ -150,7 +150,7 @@ public class Board {
         }
         return 0;
     }
-    //dx:-1 dy:-1
+    //dx:-1 dy:-1 leftUpCheck
     private int leftUpCheck(int x, int y, char player) {
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player) {
@@ -163,7 +163,7 @@ public class Board {
         }
         return 0;
     }
-    //dx:1 dy:1
+    //dx:1 dy:1 rightDownCheck
     private int rightDownCheck(int x, int y, char player) {
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player)
@@ -175,7 +175,7 @@ public class Board {
         }
         return 0;
     }
-    //dx:-1 dy:1
+    //dx:-1 dy:1 leftDownCheck
     private int leftDownCHeck(int x, int y, char player) {
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player) {
@@ -188,7 +188,7 @@ public class Board {
         }
         return 0;
     }
-    //dx:1 dy:-1
+    //dx:1 dy:-1 rightUpCheck
     private int rightUpCheck(int x, int y, char player) {
         try {
             if (tiles[y][x].getPlayer().getSymbol() == player)
@@ -199,5 +199,5 @@ public class Board {
             return 0;
         }
         return 0;
-    }
+    }*/
 }
