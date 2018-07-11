@@ -5,7 +5,7 @@ import java.security.InvalidParameterException;
 /**
  * Contains the model for the Connect Five board. (No GUI elements should placed here.)
  *
- * @author Edgar Padilla
+ * @author Andrea Torres
  */
 public class Board {
     private Square[][] tiles;
@@ -40,6 +40,7 @@ public class Board {
 
             tiles[y][x] = new Square(x, y, player);
             isFilled[y][x] = true;
+            counter++;
             if (checkForWin(tiles[y][x], player)) {
                 throw new PlayerWonException();
             }
