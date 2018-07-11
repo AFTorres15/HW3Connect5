@@ -98,31 +98,37 @@ public class ConnectFive extends JFrame {
         //anonymous class declaration (MouseAdapter is not a functional interface, we cannot use lambda expression)(need to do it the old way)
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                try {
-                    int x = locatexy(e.getX());
-                    int y = locatexy(e.getY());
-                    message.setText("X: " + x + " " + "Y: " + y);
-                    if (x > 0) {
-                        board.addDisc(x-1, y-1, player1);
-                        System.out.println("success");
-                    }
-                } catch (PlayerWonException e1) {
 
-                } catch (InValidDiskPositionException e1) {
-                    e1.printStackTrace();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+                int x = locatexy(e.getX());
+                int y = locatexy(e.getY());
+                message.setText("X: " + x + " " + "Y: " + y);
+                passCoordinates(x, y);
 
             }//end mouse pressed
         });
+    }
+
+    private void passCoordinates(int x, int y) {
+        try {
+
+            board.addDisc(x-1, y-1, player1);
+
+        } catch (InValidDiskPositionException ex1) {
+            System.out.println("1");
+
+        } catch (PlayerWonException ex1) {
+            System.out.println("2");
+        } catch (Exception e1) {
+            System.out.println("3");
+        }
+
     }
 
     private int locatexy(int x) {
         int pxlsize = 675;
         int gridSize = squareSize;
         int distance = pxlsize / gridSize;
-        if (x > 25){
+        if (x > 25) {
             x = x - 25; // since we start at 25 we remove 25 in the calculations
         }
         int result = (int) Math.round(x / distance);

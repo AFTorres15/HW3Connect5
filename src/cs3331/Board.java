@@ -82,9 +82,10 @@ public class Board {
      *
      * @return true if tie, false otherwise
      */
-    private boolean isBoardFull() {
+    public boolean isBoardFull() {
         return counter >= Math.pow(size, 2);
     }
+
 
     private boolean checkForWin(Square square, Player player) {
         if (((checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,-1) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,1))) >= 6) {
