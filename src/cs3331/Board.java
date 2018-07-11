@@ -24,6 +24,8 @@ public class Board {
      */
     public Board(int size) {
         this.size = size;
+        tiles= new Square[size][size];
+        isFilled=new boolean[size][size];
         // Your Code Goes Here!
     }
 
@@ -85,7 +87,7 @@ public class Board {
     }
 
     public boolean checkForWin(Square square, Player player) {
-        if (((upCheck(square.getX(), square.getY(), player.getSymbol()) + downCheck(square.getX(), square.getY(), player.getSymbol()))) >= 6) {
+        if (((checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,-1) + downCheck(square.getX(), square.getY(), player.getSymbol()))) >= 6) {
             // System.out.println("Current Points:" + currpoints);
             return true;
         }
