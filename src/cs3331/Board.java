@@ -58,6 +58,13 @@ public class Board {
         // Your Code Goes Here!
         return !isFilled[y][x];
     }
+    public Square getTiles(int x,int y){
+        try {
+            return tiles[y][x];
+        }catch(NullPointerException e){
+            return new Square(x,y,null);
+        }
+    }
 
     /**
      * Returns the size of this board.
@@ -78,7 +85,7 @@ public class Board {
     }
 
     public boolean checkForWin(Square square, Player player) {
-        if (((checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,-1) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,1))) >= 6) {
+        if (((upCheck(square.getX(), square.getY(), player.getSymbol()) + downCheck(square.getX(), square.getY(), player.getSymbol()))) >= 6) {
             // System.out.println("Current Points:" + currpoints);
             return true;
         }
