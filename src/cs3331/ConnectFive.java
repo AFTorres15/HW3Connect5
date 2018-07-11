@@ -109,7 +109,7 @@ public class ConnectFive extends JFrame {
     }
 
     private void passCoordinates(int x, int y) {
-        
+
 
     }
 
