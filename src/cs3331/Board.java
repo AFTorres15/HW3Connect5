@@ -35,13 +35,13 @@ public class Board {
      * @param x x coordinate of where the disc needs to be placed.
      * @param y y coordinate of where the disc needs to be placed.
      */
-    public void addDisc(int x, int y, Player player) throws InValidDiskPositionException, PlayerWonException {
+    public void addDisc(int x, int y, int player) throws InValidDiskPositionException, PlayerWonException {
         if (isValidPosition(x, y)) {
 
             tiles[y][x] = new Square(x, y, player);
             isFilled[y][x] = true;
             counter++;
-            if (checkForWin(tiles[y][x], player)) {
+            if (checkForWin(tiles[y][x])) {
                 throw new PlayerWonException();
             }
 
@@ -87,21 +87,20 @@ public class Board {
         return counter >= Math.pow(size, 2);
     }
 
-
-    private boolean checkForWin(Square square, Player player) {
-        if (((checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,-1) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),0,1))) >= 6) {
+    private boolean checkForWin(Square square) {
+        if (((checkWinHelper(square.getX(), square.getY(), square.getPlayer(),0,-1) + checkWinHelper(square.getX(), square.getY(),square.getPlayer(),0,1))) >= 6) {
             // System.out.println("Current Points:" + currpoints);
             return true;
         }
-        if (checkWinHelper(square.getX(), square.getY(), player.getSymbol(),-1,0) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),1,0) >= 6)
+        if (checkWinHelper(square.getX(), square.getY(), square.getPlayer(),-1,0) + checkWinHelper(square.getX(), square.getY(), square.getPlayer(),1,0) >= 6)
             return true;
-        if (checkWinHelper(square.getX(), square.getY(), player.getSymbol(),-1,-1) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),1,1) >= 6)
+        if (checkWinHelper(square.getX(), square.getY(), square.getPlayer(),-1,-1) + checkWinHelper(square.getX(), square.getY(), square.getPlayer(),1,1) >= 6)
             return true;
-        return checkWinHelper(square.getX(), square.getY(), player.getSymbol(),-1,1) + checkWinHelper(square.getX(), square.getY(), player.getSymbol(),1,-1) >= 6;
+        return checkWinHelper(square.getX(), square.getY(), square.getPlayer(),-1,1) + checkWinHelper(square.getX(), square.getY(), square.getPlayer(),1,-1) >= 6;
     }
-    private int checkWinHelper(int x, int y,char player,int dx,int dy){
+    private int checkWinHelper(int x, int y,int player,int dx,int dy){
         try {
-            if (tiles[y][x].getPlayer().getSymbol() == player) {
+            if (tiles[y][x].getPlayer() == player) {
                 return 1 + checkWinHelper(x+dx, y+dy, player,dx,dy);
             }
         } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
