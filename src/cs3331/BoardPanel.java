@@ -57,9 +57,12 @@ public class BoardPanel extends JPanel{
 
         int size = 675; // multiple of 9 and 15
         int n = size / grid;
+        // for 15x15 distance in-between lines is 45px
+        // for 9x9 its 75px
         for(int i = 0; i <= 15; i++)
         {
             //vertical lines
+            // starts at 25px
             g.drawLine(25 + i * n, 25, 25 + i * n, 700);
             //horizontal
             g.drawLine(25,25 + i * n , 700, 25 + i * n);

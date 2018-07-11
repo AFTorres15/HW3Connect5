@@ -33,7 +33,7 @@ public class ConnectFive extends JFrame {
      * frame.
      */
     private BoardPanel boardPanel;
-    private int squareSize = 25;
+    private int squareSize = 70;
 
     /**
      * Constructor that initializes and adds all the components of the frame
@@ -96,30 +96,25 @@ public class ConnectFive extends JFrame {
         //anonymous class declaration (MouseAdapter is not a functional interface, we cannot use lambda expression)(need to do it the old way)
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-//                try {
-//                    int xy = locateSquare(e.getX(), e.getY());
-//                    message.setText("X: " + xy/100 + " Y: " + xy%100);
-//                    if (xy > 0) {
-//                        board.addDisc(xy/100, xy%100, new Player(1,'o'));
-//                    }
-//                } catch (InValidDiskPositionException e1) {
-//                    e1.printStackTrace();
-//                } catch (PlayerWonException e1) {
-//                    e1.printStackTrace();
-//                }
+                message.setText("X: " + e.getX()  + " Y: " + e.getY());
+                int xy = locateSquare(e.getX(), e.getY());
+                if (xy >= 0) {
+                    message.setText("X: " + xy/100  + " Y: " + xy%100);
+                }
+
             }//end mouse pressed
         });
     }
 
-//    private int locateSquare(int x, int y) {
-//        if (x < 0 || x > board.size * squareSize
-//                || y < 0 || y > board.size * squareSize) {
-//            return -1;
-//        }
-//        int xx = x / squareSize;
-//        int yy = y / squareSize;
-//        return xx * 100 + yy;
-//    }
+    private int locateSquare(int x, int y) {
+        if (x < 0 || x > board.size() * squareSize
+                || y < 0 || y > board.size() * squareSize) {
+            return -1;
+        }
+        int xx = x / squareSize;
+        int yy = y / squareSize;
+        return xx * 170 + yy;
+    }
 
     private BoardPanel boardPan(int size) {
         //board = new Board(15);
