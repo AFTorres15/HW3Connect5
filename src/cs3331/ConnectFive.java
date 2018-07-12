@@ -67,6 +67,11 @@ public class ConnectFive extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * creates the buttons, and adds the other panels to create
+     * the overall GUI of the connect 5 game.
+     * @param size the size of the board to be played
+     */
     public void createGUI(int size) {
         //adding buttons (top)
         JPanel boardSizePanel = new JPanel(new FlowLayout());
@@ -107,7 +112,6 @@ public class ConnectFive extends JFrame {
 
 
         // Handler for user input when placing a disc on the grid.
-        //anonymous class declaration (MouseAdapter is not a functional interface, we cannot use lambda expression)(need to do it the old way)
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
 
@@ -121,6 +125,12 @@ public class ConnectFive extends JFrame {
         });
     }
 
+    /**
+     * Gets the coordinates from the mouse click and
+     * adds the disc to the coordinates obtained
+     * @param x  the x-coordinate from pixels
+     * @param y  the y-coordinate from pixels
+     */
     private void passCoordinates(int x, int y) {
             try {
 
@@ -149,6 +159,12 @@ public class ConnectFive extends JFrame {
             }
     }
 
+    /**
+     * takes the pixels in the window and divides it by board size
+     * to return the coordinate of each square in the board grid
+     * @param x
+     * @return int coordinate of the square that was clicked on the board
+     */
     private int locateXY(int x) {
         int pxlsize = 675;
         int gridSize = squareSize;
@@ -160,6 +176,11 @@ public class ConnectFive extends JFrame {
         return result + 1;
     }
 
+    /**
+     * creates the board panel that displays the current game
+     * @param size
+     * @return a panel that can be added to the window
+     */
     private BoardPanel boardPan(int size) {
         board = new Board(size);
         boardPanel = new BoardPanel(board);
@@ -167,6 +188,10 @@ public class ConnectFive extends JFrame {
         return boardPanel;
     }
 
+    /**
+     * Creates a panel that displays a text status about the game
+     * @return JPanel to be added to a window
+     */
     private JPanel statusPanel() {
         JPanel statusPanel = new JPanel();
         statusPanel.setBackground(Color.DARK_GRAY);
