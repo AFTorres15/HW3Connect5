@@ -1,9 +1,7 @@
 package cs3331;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 
@@ -20,6 +18,7 @@ public class BoardPanel extends JPanel{
     /** Board model. */
     private Board board;
     private int grid; // size of grid
+
 
     /**
      * Creates an instance of this panel for the discs board.
@@ -66,6 +65,36 @@ public class BoardPanel extends JPanel{
             g.drawLine(25 + i * n, 25, 25 + i * n, 700);
             //horizontal
             g.drawLine(25,25 + i * n , 700, 25 + i * n);
+        }
+
+//        int squareSize = board.size();
+//        int pxlsize = 675;
+//        int gridSize = squareSize;
+//        int distance = pxlsize/squareSize;
+        int pxlTotal = 675;
+        int temp = pxlTotal / grid;
+        int discPxl;
+        if (grid == 9) {
+            discPxl = 75;
+        } else{
+            discPxl = 45;
+        }
+
+        Graphics2D g22d = (Graphics2D) g;
+        for (int i = 0; i < board.size() ; i++) {
+
+            for (int j = 0; j < board.size() ; j++) {
+
+                if (board.getTiles(i, j) != null && board.getTiles(i, j).getPlayer() == 1) {
+                    Ellipse2D.Double circle = new Ellipse2D.Double(i*temp+25, j*temp + 25, discPxl,discPxl);
+                    g22d.setPaint(Color.RED);
+                    g22d.fill(circle);
+                } else if(board.getTiles(i, j) != null && board.getTiles(i, j).getPlayer() == 2) {
+                    Ellipse2D.Double circle = new Ellipse2D.Double(i*temp+25, j*temp+25, discPxl,discPxl);
+                    g22d.setPaint(Color.BLACK);
+                    g22d.fill(circle);
+                }
+            }
         }
     }
 

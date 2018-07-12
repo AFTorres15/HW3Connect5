@@ -1,7 +1,5 @@
 package cs3331;
 
-import java.security.InvalidParameterException;
-
 /**
  * Contains the model for the Connect Five board. (No GUI elements should placed here.)
  *
@@ -60,6 +58,10 @@ public class Board {
     private boolean isValidPosition(int x, int y) {
         // Your Code Goes Here!
         return !isFilled[y][x];
+    }
+
+    public Square[][] getAllTiles() {
+        return tiles;
     }
     public Square getTiles(int x,int y){
         try {

@@ -10,6 +10,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
+import static javax.swing.JOptionPane.CLOSED_OPTION;
+import static javax.swing.JOptionPane.NO_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
+
 
 /**
  * Frame class for the graphical user interface of connect five.
@@ -34,8 +38,7 @@ public class ConnectFive extends JFrame {
      */
     private BoardPanel boardPanel;
     private int squareSize = 15;
-    private Player player1 = new Player(1, '1');
-    private Player player2 = new Player(2, '2');
+
     // player1 is true, player2 is false
     private boolean turn = true;
 
@@ -72,11 +75,18 @@ public class ConnectFive extends JFrame {
         for (JButton button : new JButton[]{largeBoard, smallBoard}) {
             button.setFocusPainted(false);
             button.addActionListener(e -> {
+                int ans;
                 message.setText((e.getSource() == largeBoard ? "15" : "9"));
                 if (e.getSource() == largeBoard) {
-                    JOptionPane.showConfirmDialog(this, "Start NEW GAME?");
-                    this.dispose();
-                    new ConnectFive(15);
+                    ans = JOptionPane.showConfirmDialog(this, "Start NEW GAME?");
+                    switch (ans){
+                        case NO_OPTION:
+
+                        case YES_OPTION:
+                            this.dispose();
+                            new ConnectFive(15);
+                    }
+
                 } else {
                     JOptionPane.showConfirmDialog(this, "Start NEW GAME?");
                     this.dispose();
@@ -101,38 +111,45 @@ public class ConnectFive extends JFrame {
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
 
-                int x = locatexy(e.getX());
-                int y = locatexy(e.getY());
+                int x = locateXY(e.getX());
+                int y = locateXY(e.getY());
                 message.setText("X: " + x + " " + "Y: " + y);
                 passCoordinates(x, y);
+                repaint();
 
             }//end mouse pressed
         });
     }
 
     private void passCoordinates(int x, int y) {
-        try {
+            try {
 
-            if (turn) {
-                message.setText("Player 2's turn");
-                board.addDisc(x - 1, y - 1, 1);
-                turn = false;
-            }else{
-                message.setText("Player 1's turn");
-                board.addDisc(x-1, y-1, 2);
-                turn = true;
+                if (turn) {
+                    message.setText("Player 2's turn");
+                    board.addDisc(x - 1, y - 1, 1);
+                    turn = false;
+                } else {
+                    message.setText("Player 1's turn");
+                    board.addDisc(x - 1, y - 1, 2);
+                    turn = true;
+                }
+            } catch (PlayerWonException ex1) {
+                if (turn) {
+                    boardPanel.setVisible(false);
+                    message.setText("PLAYER 1 IS THE WINNER!");
+                } else {
+                    message.setText("PLAYER 2 IS THE WINNER");
+                    boardPanel.setVisible(false);
+                }
+            } catch (InValidDiskPositionException ex1) {
+                message.setText("INVALID PLACEMENT: ALREADY OCCUPIED");
+
+            } catch (Exception ex1) {
+                System.out.println("Something else went wrong");
             }
-        } catch (PlayerWonException ex1) {
-            message.setText("PLAYER WONNNNNNNNNN");
-            System.out.println("player won");
-        } catch (InValidDiskPositionException ex1){
-            System.out.println("You cannot place there");
-        }catch (Exception ex1){
-            System.out.println("Something else went wrong");
-        }
     }
 
-    private int locatexy(int x) {
+    private int locateXY(int x) {
         int pxlsize = 675;
         int gridSize = squareSize;
         int distance = pxlsize / gridSize;
