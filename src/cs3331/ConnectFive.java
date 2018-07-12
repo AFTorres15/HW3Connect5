@@ -36,6 +36,8 @@ public class ConnectFive extends JFrame {
     private int squareSize = 15;
     private Player player1 = new Player(1, '1');
     private Player player2 = new Player(2, '2');
+    // player1 is true, player2 is false
+    private boolean turn = true;
 
     /**
      * Constructor that initializes and adds all the components of the frame
@@ -109,8 +111,25 @@ public class ConnectFive extends JFrame {
     }
 
     private void passCoordinates(int x, int y) {
+        try {
 
-
+            if (turn) {
+                message.setText("Player 2's turn");
+                board.addDisc(x - 1, y - 1, 1);
+                turn = false;
+            }else{
+                message.setText("Player 1's turn");
+                board.addDisc(x-1, y-1, 2);
+                turn = true;
+            }
+        } catch (PlayerWonException ex1) {
+            message.setText("PLAYER WONNNNNNNNNN");
+            System.out.println("player won");
+        } catch (InValidDiskPositionException ex1){
+            System.out.println("You cannot place there");
+        }catch (Exception ex1){
+            System.out.println("Something else went wrong");
+        }
     }
 
     private int locatexy(int x) {
